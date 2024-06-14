@@ -32,6 +32,7 @@ function exhaustiveSearchKnapsack() {
   const n = daftarBarang.length; // Jumlah barang yang ada
   let solusiOptimal = null;
 
+  let start = new Date().getTime();
   // Menghasilkan semua kemungkinan kombinasi item
   for (let i = 0; i < 1 << n; i++) {
     // 1 << n artinya adalah menggeser bit 1 ke kiri sebanyak n kali
@@ -39,6 +40,9 @@ function exhaustiveSearchKnapsack() {
     let profitTotal = 0;
     let temp = []; // menyimpan pasangan solusi pada tiap iterasi ke-j
 
+    // 0010
+    // 0010
+    // 0010
     for (let j = 0; j < n; j++) {
       if (i & (1 << j)) {
         beratTotal += daftarBarang[j].berat;
@@ -57,6 +61,9 @@ function exhaustiveSearchKnapsack() {
       solusiOptimal = solusiIterasi; // update solusi optimal
     }
   }
+  let end = new Date().getTime();
+  let time = end - start;
+  console.log(time);
 
   // Urutkan hasil berdasarkan panjang solusiIterasi dan kemudian secara leksikografis
   daftarSolusi.sort((a, b) => {
@@ -102,6 +109,7 @@ function displayResults(daftarSolusi, kapasitas, solusiOptimal) {
   headerRow.insertCell(1).innerText = "Daftar Barang";
   headerRow.insertCell(2).innerText = "Berat Total";
   headerRow.insertCell(3).innerText = "Profit Total";
+  headerRow.insertCell(4).innerText = "Biner";
   const tableBody = resultsTable.createTBody();
 
   daftarSolusi.forEach((hasil, index) => {
@@ -110,6 +118,7 @@ function displayResults(daftarSolusi, kapasitas, solusiOptimal) {
     row.insertCell(1).innerText = hasil.temp.join(", ");
     row.insertCell(2).innerText = hasil.beratTotal;
     row.insertCell(3).innerText = hasil.profitTotal;
+    row.insertCell(4).innerText = hasil.temp;
 
     if (hasil.beratTotal > kapasitas) {
       row.classList.add("over-capacity");
